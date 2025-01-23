@@ -79,7 +79,7 @@
         responseContainer.textContent = "Thinking...";
 
         // Make POST request to API Gateway
-        fetch('https://6s9591v466.execute-api.us-east-1.amazonaws.com/prod/claude', {
+        fetch('https://mio9o8bgck.execute-api.us-east-1.amazonaws.com/dev/ask', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
