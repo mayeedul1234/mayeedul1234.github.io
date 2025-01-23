@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS Bedrock's Claude Model in Action</title>
+    <title>AWS Bedrock's Cohere Model in Action</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,7 +58,7 @@
 <body>
 
 <div id="container">
-    <h1>AWS Bedrock's Claude Model in Action</h1>
+    <h1>AWS Bedrock's Cohere Model in Action</h1>
     <textarea id="user-prompt" rows="5" placeholder="Enter your prompt here..."></textarea>
     <button id="submit-btn">Ask</button>
     <div id="response-container" class="response" style="display: none;"></div>
