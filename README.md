@@ -3,110 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS Bedrock's Cohere Model in Action</title>
+    <title>ChatGPT-like Service</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
         }
-        #container {
+        .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 50px auto;
             padding: 20px;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-        h1 {
-            text-align: center;
-            color: #333;
+        .input-section, .response-section {
+            margin-bottom: 20px;
         }
         textarea {
             width: 100%;
             padding: 10px;
+            font-size: 16px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 16px;
+            resize: none;
         }
         button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
+            background-color: #007bff;
+            color: #fff;
             border: none;
+            padding: 10px 15px;
+            cursor: pointer;
             border-radius: 4px;
             font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
         .response {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f1f1f1;
+            background: #f1f1f1;
+            padding: 10px;
             border-radius: 4px;
             border: 1px solid #ddd;
-            white-space: pre-wrap;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h2>ChatGPT-like Service</h2>
+        <div class="input-section">
+            <textarea id="prompt" rows="5" placeholder="Enter your question here..."></textarea>
+        </div>
+        <button onclick="getResponse()">Submit</button>
+        <div class="response-section">
+            <h4>Response:</h4>
+            <div id="response" class="response">Waiting for input...</div>
+        </div>
+    </div>
 
-<div id="container">
-    <h1>AWS Bedrock's Cohere Model in Action</h1>
-    <textarea id="user-prompt" rows="5" placeholder="Enter your prompt here..."></textarea>
-    <button id="submit-btn">Ask</button>
-    <div id="response-container" class="response" style="display: none;"></div>
-</div>
+    <script>
+        async function getResponse() {
+            const prompt = document.getElementById('prompt').value;
 
-<script>
-    document.getElementById("submit-btn").addEventListener("click", function() {
-        const prompt = document.getElementById("user-prompt").value;
-        const responseContainer = document.getElementById("response-container");
-
-        if (prompt.trim() === "") {
-            alert("Please enter a prompt.");
-            return;
-        }
-
-        // Display loading text
-        responseContainer.style.display = "block";
-        responseContainer.textContent = "Thinking...";
-
-        // Make POST request to API Gateway
-        fetch('https://mio9o8bgck.execute-api.us-east-1.amazonaws.com/dev/ask', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                prompt: prompt,
-                max_tokens: 400,
-                temperature: 0.75,
-                p: 0.01,
-                k: 0,
-                stop_sequences: [],
-                return_likelihoods: 'NONE'
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.response) {
-                responseContainer.textContent = data.response;
-            } else if (data.error) {
-                responseContainer.textContent = `Error: ${data.error}`;
+            if (!prompt.trim()) {
+                alert('Please enter a question!');
+                return;
             }
-        })
-        .catch(error => {
-            responseContainer.textContent = `Error: ${error}`;
-        });
-    });
-</script>
 
+            document.getElementById('response').innerText = 'Processing...';
+
+            try {
+                const response = await fetch('https://mio9o8bgck.execute-api.us-east-1.amazonaws.com/dev/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API response was not ok');
+                }
+
+                const data = await response.json();
+                document.getElementById('response').innerText = data.response || 'No response received.';
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('response').innerText = 'An error occurred. Please try again.';
+            }
+        }
+    </script>
 </body>
 </html>
+
