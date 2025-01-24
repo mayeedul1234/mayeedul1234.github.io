@@ -78,10 +78,9 @@
         responseContainer.style.display = "block";
         responseContainer.textContent = "Thinking...";
 
-        // Make POST request to API Gateway with 'no-cors' mode
+        // Make POST request to API Gateway
         fetch('https://mio9o8bgck.execute-api.us-east-1.amazonaws.com/dev/ask', {
             method: 'POST',
-            mode: 'cors', // Disable CORS
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -93,16 +92,19 @@
                 k: 0,
             })
         })
-        .then(response => {
-            // 'no-cors' does not allow access to the response body or headers
-            responseContainer.textContent = "Request sent, but the response cannot be accessed due to 'no-cors' mode.";
+        .then(response => response.json())
+        .then(data => {
+            if (data.response) {
+                responseContainer.textContent = data.response;
+            } else if (data.error) {
+                responseContainer.textContent = Error: ${data.error};
+            }
         })
         .catch(error => {
-            responseContainer.textContent = `Error: ${error}`;
+            responseContainer.textContent = Error: ${error};
         });
     });
 </script>
 
 </body>
 </html>
-
