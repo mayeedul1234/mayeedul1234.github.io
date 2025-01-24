@@ -86,8 +86,12 @@
             },
             body: JSON.stringify({
                 prompt: prompt,
-                temperature: 0.7,
-                max_tokens: 200
+                max_tokens: 400,
+                temperature: 0.75,
+                p: 0.01,
+                k: 0,
+                stop_sequences: [],
+                return_likelihoods: 'NONE'
             })
         })
         .then(response => response.json())
