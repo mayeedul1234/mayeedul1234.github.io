@@ -79,7 +79,7 @@
         responseContainer.textContent = "Thinking...";
 
         // Make POST request to Lambda API Gateway
-        fetch('https://mio9o8bgck.execute-api.us-east-1.amazonaws.com/dev', { // Replace <your-api-gateway-endpoint> with your API Gateway URL
+        fetch('https://mio9o8bgck.execute-api.us-east-1.amazonaws.com/dev/ask', { // Replace <your-api-gateway-endpoint> with your API Gateway URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
