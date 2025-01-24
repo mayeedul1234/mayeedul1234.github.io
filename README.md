@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS Bedrock's Claude Model in Action</title>
+    <title>AWS Bedrock Model Integration</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,7 +58,7 @@
 <body>
 
 <div id="container">
-    <h1>AWS Bedrock's Claude Model in Action</h1>
+    <h1>AWS Bedrock Model Integration</h1>
     <textarea id="user-prompt" rows="5" placeholder="Enter your prompt here..."></textarea>
     <button id="submit-btn">Ask</button>
     <div id="response-container" class="response" style="display: none;"></div>
@@ -74,28 +74,24 @@
             return;
         }
 
-        // Display loading text
+        // Display loading message
         responseContainer.style.display = "block";
         responseContainer.textContent = "Thinking...";
 
-        // Make POST request to API Gateway
-        fetch('https://6s9591v466.execute-api.us-east-1.amazonaws.com/prod/claude', {
+        // Make POST request to Lambda API Gateway
+        fetch('https://mio9o8bgck.execute-api.us-east-1.amazonaws.com/dev', { // Replace <your-api-gateway-endpoint> with your API Gateway URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                prompt: prompt,
-                temperature: 0.7,
-                max_tokens: 200
-            })
+            body: JSON.stringify({ prompt: prompt })
         })
         .then(response => response.json())
         .then(data => {
             if (data.response) {
                 responseContainer.textContent = data.response;
-            } else if (data.error) {
-                responseContainer.textContent = `Error: ${data.error}`;
+            } else {
+                responseContainer.textContent = `Error: ${data.error || "Unexpected error occurred."}`;
             }
         })
         .catch(error => {
@@ -106,4 +102,3 @@
 
 </body>
 </html>
-
