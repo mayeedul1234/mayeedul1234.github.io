@@ -81,7 +81,7 @@
         // Make POST request to API Gateway with 'no-cors' mode
         fetch('https://mio9o8bgck.execute-api.us-east-1.amazonaws.com/dev/ask', {
             method: 'POST',
-            mode: 'no-cors', // Disable CORS
+            mode: 'cors', // Disable CORS
             headers: {
                 'Content-Type': 'application/json'
             },
